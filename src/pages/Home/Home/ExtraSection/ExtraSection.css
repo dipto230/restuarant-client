@@ -1,0 +1,10 @@
+.extra-bg {
+    background-image: url('../../../../assets/home/chef-service.jpg');
+    background-position: center; /* Centers the image */
+    background-size: cover; /* Ensures the image covers the container */
+    background-repeat: no-repeat; /* Prevents the image from repeating */
+    height: 500px; /* Adjust as necessary */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
