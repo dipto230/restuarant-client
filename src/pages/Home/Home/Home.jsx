@@ -5,6 +5,7 @@ import PopularMenu from '../PopularMenu/PopularMenu';
 import Featured from './Featured/Featured';
 import Testimonials from '../Testimonials/Testimonials';
 import ExtraSection from './ExtraSection/ExtraSection';
+import ContactSection from '../ContactSection';
 
 const Home = () => {
     return (
@@ -13,6 +14,7 @@ const Home = () => {
       <Category></Category>
       <ExtraSection></ExtraSection>
       <PopularMenu></PopularMenu>
+      <ContactSection></ContactSection>
       <Featured></Featured>
       <Testimonials></Testimonials>
             
