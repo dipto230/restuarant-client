@@ -1,16 +1,28 @@
-import React from 'react';
+import React, { useContext } from 'react';
+import { Helmet } from 'react-helmet-async';
 import { useForm } from 'react-hook-form';
+import { AuthContext } from '../../providers/AuthProvider';
 
 const SignUp = () => {
     const { register, handleSubmit,  reset, formState: { errors } } = useForm();
+    const {createUser} = useContext(AuthContext);
     const onSubmit = data => {
         console.log(data);
+        createUser(data.email,data.password)
+        .then(result=>{
+          const loggedUser = result.user;
+          console.log(loggedUser)
+        })
     };
 
     //console.log(watch("example")); // This will now work as expected.
 
     return (
-        <div className="hero bg-base-200 min-h-screen">
+       <>
+       <Helmet>
+                       <title>Bistro Boss | Order Food</title>
+                   </Helmet>
+         <div className="hero bg-base-200 min-h-screen">
             <div className="hero-content flex-col lg:flex-row-reverse">
                 <div className="text-center lg:text-left">
                     <h1 className="text-5xl font-bold">Sign Up now!</h1>
@@ -54,13 +66,15 @@ const SignUp = () => {
                             </label>
                         </div>
                         <div className="form-control mt-6">
-                            <button className="btn btn-primary">Login</button>
+                        <input className="btn btn-primary" type='submit' value='sign up'/>
+                           
                         </div>
                     </form>
                     
                 </div>
             </div>
         </div>
+       </>
     );
 };
 
