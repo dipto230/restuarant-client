@@ -1,7 +1,13 @@
-import React, { useEffect } from 'react';
-import { loadCaptchaEnginge, LoadCanvasTemplate } from 'react-simple-captcha';
+import React, { useContext, useEffect, useRef, useState } from 'react';
+import { loadCaptchaEnginge, LoadCanvasTemplate, validateCaptcha } from 'react-simple-captcha';
+import { AuthContext } from '../providers/AuthProvider';
+import { Link } from 'react-router-dom';
 
 const Login = () => {
+    const captchaRef= useRef(null);
+    const[disabled,setDisabled] = useState(true);
+
+    const {signIn} =useContext(AuthContext)
     useEffect(() => {
         loadCaptchaEnginge(6);  // Initialize the captcha when the component mounts
     }, []);
@@ -11,9 +17,22 @@ const Login = () => {
         const form = event.target;
         const email = form.email.value;  // Reference the input by its name attribute
         const password = form.password.value;  // Reference the input by its name attribute
-        console.log(email, password);
+        const captcha = form.captcha.value;  // Capture captcha value
+        console.log(email, password, captcha);
+        signIn(email, password )
+        .then(result=>{
+            const user = result.user;
+            console.log(user)
+        })
     };
+    const handleValidateCaptcha= event=>{
+        const user_captcha_value = captchaRef.current.value;
+        if(validateCaptcha(user_captcha_value)){
+           disabled(false);
+        }
+       
 
+    }
     return (
         <div className="hero bg-base-200 min-h-screen">
             <div className="hero-content flex-col lg:flex-row-reverse">
@@ -46,12 +65,16 @@ const Login = () => {
                                 {/* Render the captcha here */}
                                 <LoadCanvasTemplate />
                             </label>
-                            <input name="captcha" type="text" placeholder="Enter captcha" className="input input-bordered" required />
+                            <input name="captcha" type="text" ref={captchaRef} placeholder="Enter captcha" className="input input-bordered" required />
+                        </div>
+                        <div className="form-control mt-2">
+                            <button  onClick={handleValidateCaptcha} className="btn btn-outline btn-xs w-full">Validate</button>  {/* Added width for better layout */}
                         </div>
                         <div className="form-control mt-6">
-                            <input className="btn btn-primary" type="submit" value="Login" />
+                            <input disabled={disabled} className="btn btn-primary w-full" type="submit" value="Login" />
                         </div>
                     </form>
+                    <p>  <small>New Here?<Link to="/signup">Create an account</Link></small>    </p>
                 </div>
             </div>
         </div>
