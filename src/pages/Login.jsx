@@ -10,6 +10,7 @@ const Login = () => {
     const navigate = useNavigate();
     const location = useLocation();
     const from = location.state?.from?.pathname||"/";
+    console.log('state in the location ', location.state)
 
     const { signIn } = useContext(AuthContext);
 
@@ -123,7 +124,7 @@ const Login = () => {
                             </button>
                         </div>
                         <div className="form-control mt-6">
-                            <input disabled={disabled} className="btn btn-primary w-full" type="submit" value="Login" />
+                            <input disabled={false} className="btn btn-primary w-full" type="submit" value="Login" />
                         </div>
                     </form>
                     <p>
