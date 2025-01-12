@@ -4,8 +4,10 @@ import { useForm } from 'react-hook-form';
 import { AuthContext } from '../../providers/AuthProvider';
 import Swal from 'sweetalert2';
 import { useNavigate } from 'react-router-dom';
+import useAxiosPublic from '../../hooks/useAxiosPublic';
 
 const SignUp = () => {
+    const axiosPublic = useAxiosPublic();
     const { register, handleSubmit, reset, formState: { errors } } = useForm();
     const { createUser, updateUserProfile } = useContext(AuthContext);
     const navigate = useNavigate();
@@ -16,15 +18,30 @@ const SignUp = () => {
                 const loggedUser = result.user;
                 updateUserProfile(data.name, data.photoURL)
                     .then(() => {
+                        const userInfo ={
+                            name:data.name,
+                            email:data.email,
+
+                        }
+                        axiosPublic.post('/users',userInfo)
+                        .then(res=>{
+                            if(res.data.insertedId){
+                                console.log('user added to the database')
+                                Swal.fire({
+                                    position: 'top-end',
+                                    icon: 'success',
+                                    title: 'User created successfully!',
+                                    showConfirmButton: false,
+                                    timer: 1500,
+                                });
+                                navigate('/');
+
+                            }
+                        })
+                       
+
                         reset();
-                        Swal.fire({
-                            position: 'top-end',
-                            icon: 'success',
-                            title: 'User created successfully!',
-                            showConfirmButton: false,
-                            timer: 1500,
-                        });
-                        navigate('/');
+                     
                     })
                     .catch((error) => {
                         Swal.fire({
