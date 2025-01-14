@@ -2,9 +2,10 @@ import React from 'react';
 import { FaAd, FaBook, FaCalendar, FaEnvelope, FaHome, FaList, FaSearch, FaShoppingCart, FaUser, FaUtensils, FaVoicemail } from 'react-icons/fa';
 import { NavLink, Outlet } from 'react-router-dom';
 import UseCart from '../hooks/UseCart';
+import UseAdmin from '../hooks/UseAdmin';
 
 const Dashboard = () => {
-   const isAdmin = true;
+   const [isAdmin] = UseAdmin();
 
     const [cart] = UseCart();
     return (
