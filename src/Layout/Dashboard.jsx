@@ -1,17 +1,50 @@
 import React from 'react';
-import { FaAd, FaCalendar, FaEnvelope, FaHome, FaList, FaSearch, FaShoppingCart, FaVoicemail } from 'react-icons/fa';
+import { FaAd, FaBook, FaCalendar, FaEnvelope, FaHome, FaList, FaSearch, FaShoppingCart, FaUser, FaUtensils, FaVoicemail } from 'react-icons/fa';
 import { NavLink, Outlet } from 'react-router-dom';
 import UseCart from '../hooks/UseCart';
 
 const Dashboard = () => {
    const isAdmin = true;
-   
+
     const [cart] = UseCart();
     return (
         <div className='flex'>
         <div className='w-64 min-h-screen bg-orange-400'>
-        <ul className='menu'>
+        <ul className='menu p-4'>
+     {
+      isAdmin?<>
+      <li>
+     <NavLink to="/dashboard/adminHome">
+       <FaHome></FaHome>
+        Admin Home </NavLink>
+        </li>
         <li>
+     <NavLink to="/dashboard/addItems">
+       <FaUtensils></FaUtensils>
+        Add Item's  </NavLink>
+        </li>
+        <li>
+     <NavLink to="/dashboard/manageItems">
+        <FaList></FaList>
+        Manage items</NavLink>
+        </li>
+        <li>
+     <NavLink to="/dashboard/bookings">
+        <FaBook></FaBook>
+        My Bookings</NavLink>
+        </li>
+      
+
+        <li>
+     <NavLink to="/dashboard/users">
+        <FaUser></FaUser>
+        All User's</NavLink>
+        </li>
+
+      </>
+      :
+      <>
+      <li>
      <NavLink to="/dashboard/userHome">
        <FaHome></FaHome>
         User Home </NavLink>
@@ -38,6 +71,8 @@ const Dashboard = () => {
         <FaList></FaList>
         My Bookings</NavLink>
         </li>
+      </>
+     }
 
         {/* shared nav link */}
 
