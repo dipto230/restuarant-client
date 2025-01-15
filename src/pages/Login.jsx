@@ -10,21 +10,21 @@ const Login = () => {
     const [disabled, setDisabled] = useState(true);
     const navigate = useNavigate();
     const location = useLocation();
-    const from = location.state?.from?.pathname||"/";
-    console.log('state in the location ', location.state)
+    const from = location.state?.from?.pathname || '/'; // Fallback to home if no state is provided
+    console.log('Location state:', location.state);
 
     const { signIn } = useContext(AuthContext);
 
     useEffect(() => {
-        loadCaptchaEnginge(6); // Initialize the captcha when the component mounts
+        loadCaptchaEnginge(6); // Initialize captcha on mount
     }, []);
 
     const handleLogin = (event) => {
         event.preventDefault();
         const form = event.target;
-        const email = form.email.value; // Reference the input by its name attribute
-        const password = form.password.value; // Reference the input by its name attribute
-        const captcha = form.captcha.value; // Capture captcha value
+        const email = form.email.value;
+        const password = form.password.value;
+        const captcha = form.captcha.value;
 
         if (!validateCaptcha(captcha)) {
             Swal.fire({
@@ -48,7 +48,7 @@ const Login = () => {
                         popup: 'animate__animated animate__fadeOutDown animate__faster',
                     },
                 });
-                navigate(from,{replace:true})
+                navigate(from, { replace: true });
             })
             .catch((error) => {
                 Swal.fire({
@@ -125,15 +125,15 @@ const Login = () => {
                             </button>
                         </div>
                         <div className="form-control mt-6">
-                            <input disabled={false} className="btn btn-primary w-full" type="submit" value="Login" />
+                            <input disabled={disabled} className="btn btn-primary w-full" type="submit" value="Login" />
                         </div>
                     </form>
-                    <p className='px-6'>
+                    <p className="px-6">
                         <small>
                             New Here? <Link to="/signup">Create an account</Link>
                         </small>
                     </p>
-                    <SocialLogin></SocialLogin>
+                    <SocialLogin />
                 </div>
             </div>
         </div>
