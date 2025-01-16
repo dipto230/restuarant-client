@@ -2,6 +2,9 @@ import { useForm } from "react-hook-form";
 import SectionTittle from "../../components/SectionTittle/SectionTittle";
 import { FaUtensils } from "react-icons/fa";
 import useAxiosPublic from "../../hooks/useAxiosPublic";
+import Category from "../Home/Category/Category";
+import useAxiosSecure from "../../hooks/useAxiosSecure";
+import Swal from "sweetalert2";
 
 
 const image_hosting_key = import.meta.env.VITE_IMAGE_HOSTING_KEY;
@@ -10,7 +13,8 @@ const image_hosting_api = `https://api.imgbb.com/1/upload?key=${image_hosting_ke
 
 
 const AddItems = () => {
-    const {register, handleSubmit} = useForm()
+    const {register, handleSubmit, reset} = useForm()
+    const axiosSecure = useAxiosSecure();
     const axiosPublic = useAxiosPublic();
     const onSubmit = async (data) => {
         console.log(data)
@@ -20,7 +24,28 @@ const AddItems = () => {
                 'content-type':'multipart/form-data'
             }
         });
-        console.log(res.data);
+        if(res.data.success){
+            const menuItem ={
+                name :data.name,
+                category : data.category,
+                price: parseFloat(data.price),
+                recipe: data.recipe,
+                image: res.data.data.display_url
+            }
+            const menuRes = await axiosSecure.post('/menu',menuItem);
+            console.log(menuRes.data)
+            if(menuRes.data.insertedId){
+                reset();
+                Swal.fire({
+                    position: "top-end",
+                    icon: "success",
+                    title: `${data.name} is added to the menu`,
+                    showConfirmButton: false,
+                    timer: 1500
+                  });
+            }
+        }
+        console.log('with image url',res.data);
     };
     return (
         <div>
